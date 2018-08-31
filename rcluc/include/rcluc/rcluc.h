@@ -87,8 +87,8 @@ void rcluc_node_spin_forever(rcluc_node_handle_t node_handle);
  *      subscription
  *  @param node_handle The handle for the node that this subscription will be created on
  *  @param topic_name The name of the topic that will be subscribed to. Expected to be a null terminated string
+ *  @param message_type The message type information used by the library to handle the message type.
  *  @param callback The function to invoke when a message is received on this subscription
- *  @param message_size The size of a message to be received on the topic in bytes
  *  @param queue_length The number of messages to queue for the incoming subscription
  *  @param message_buffer A pointer to a uint8_t array buffer that contains enough space for at least
  *      (message_size * queue_length). This buffer will be used by the library for the lifetime of the subscription
@@ -96,7 +96,7 @@ void rcluc_node_spin_forever(rcluc_node_handle_t node_handle);
  *  @return Returns an error code that will be RCLUC_RET_OK if create is successful
  */
 rcluc_ret_t rcluc_subscription_create(rcluc_subscription_handle_t * subscription_handle, rcluc_node_handle_t node_handle,
-    const char * topic_name, rcluc_subscription_callback_t callback, const size_t message_size,
+    const rcluc_message_type_support_t message_type, const char * topic_name, rcluc_subscription_callback_t callback,
     const size_t queue_length, uint8_t *message_buffer, const rcluc_subscription_config_t * config);
 
 /*
@@ -135,7 +135,7 @@ rcluc_ret_t rcluc_subscription_destroy(rcluc_subscription_handle_t subscription_
  *
  *  @param publisher_handle (output) A reference to a publisher_handle that will be set to the handle for the new publisher
  *  @param node_handle The handle for the ROS Node that this publisher will be created on.
- *  @param message_size The size of the message (in bytes) that will be transmitted on this topic
+ *  @param message_type The message type information used by the library to handle the message type.
  *  @param queue_length The number of messages to queue for the outgoing publish
  *  @param message_buffer A pointer to a uint8_t array buffer that contains enough space for at least
  *      (message_size * queue_length). This buffer will be used by the library for the lifetime of the publisher.
@@ -143,7 +143,8 @@ rcluc_ret_t rcluc_subscription_destroy(rcluc_subscription_handle_t subscription_
  *  @return Returns an error code that will be RCLUC_RET_OK if create is successful
  */
 rcluc_ret_t rcluc_publisher_create(rcluc_publisher_handle_t * publisher_handle, rcluc_node_handle_t node_handle,
-    size_t message_size, size_t queue_length, uint8_t * message_buffer, const rcluc_publisher_config_t * config);
+    const rcluc_message_type_support_t message_type, size_t queue_length, uint8_t * message_buffer,
+    const rcluc_publisher_config_t * config);
 
 /*
  *  @brief Initializes the provided struct with the default configuration for a publisher.

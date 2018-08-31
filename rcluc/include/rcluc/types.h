@@ -125,6 +125,24 @@ typedef rcluc_ret_t (*rcluc_message_deserialization_func_t)(void * message_buffe
 typedef rcluc_ret_t (*rcluc_message_serialization_func_t)(void * message, void * serializedBuffer);
 
 /**
+ *  @brief Contains the metadata about a ROS Message required for the rcluc library to operate on it
+ *  Contains metadata and functions required by the rcluc library to work with ROS Messages from the generator.
+ *  The rmwu generator should provide a getter function to retrieve this information for every compiled message type.
+ *
+ *  @var rcluc_message_type_support_t::message_size
+ *      The size of the ROS Messae in bytes.
+ *  @var rcluc_message_type_support_t::serialize
+ *      A function used to serialize the ROS message into the format required by the RMWU layer
+ *  @var rcluc_message_type_support_t::deserialize
+ *      A function used to deserialize the ROS message into the format required by the RMWU layer
+ */
+typedef struct {
+    size_t message_size;
+    rcluc_message_serialization_func_t serialize;
+    rcluc_message_deserialization_func_t deserialize;
+} rcluc_message_type_support_t;
+
+/**
  *  @brief the construct for a callback that is invoked when an exception occurs for a subscription.
  *
  *  @param subscription A handle to the subscription that this exception occurred for
