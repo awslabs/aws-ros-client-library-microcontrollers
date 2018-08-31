@@ -21,5 +21,11 @@
 #ifndef RCLUC__RMWU_TYPES_H_
 #define RCLUC__RMWU_TYPES_H_
 
+/* Forward declare these so they can be instantiated in the rcluc implementation without exact details exposed from the
+ * rmwu implementation.
+ */
+struct rmwu_node_t;
+struct rmwu_subscription_t;
+struct rmwu_publisher_t;
 
 #endif /* ifndef RCLUC__RMWU_TYPES_H_ */

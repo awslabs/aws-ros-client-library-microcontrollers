@@ -22,7 +22,7 @@
 #define RCLUC__RCLUC_H_
 
 #include "rcluc/rcluc_default_configs.h"
-#include "rcluc/types.h"
+#include "rcluc/rcluc_types.h"
 #include "rcluc/rmwu.h"
 
 /**
@@ -37,8 +37,8 @@ rcluc_ret_t rcluc_init(const rcluc_client_config_t * config);
  *  @brief Initializes a new ROS Node
  *  Used to initialize a preallocated ROS Node structure.
  *
- *  @param name The name of the Node
- *  @param namespace_ The namespace for the Node
+ *  @param name The name of the Node. It is expected for this string to be null terminated.
+ *  @param namespace_ The namespace for the Node. It is expected for this string to be null terminated.
  *  @param node_handle (output) A pointer to a node_handle that will be set to point to the newly created node
  *  @return Returns an error code that will be RCLUC_RET_OK if creation is successful
  */
@@ -83,8 +83,6 @@ void rcluc_node_spin_forever(rcluc_node_handle_t node_handle);
  *  //TODO: Decide if the topic should become imediately active (do the communication in this function) or wait until
  *      the next time spin is called. This can be decided during implementation and the behavior documented here
  *
- *  @param subscription_handle (output) A pointer to a subscription handle that will be set with the handle for the
- *      subscription
  *  @param node_handle The handle for the node that this subscription will be created on
  *  @param topic_name The name of the topic that will be subscribed to. Expected to be a null terminated string
  *  @param message_type The message type information used by the library to handle the message type.
@@ -93,11 +91,13 @@ void rcluc_node_spin_forever(rcluc_node_handle_t node_handle);
  *  @param message_buffer A pointer to a uint8_t array buffer that contains enough space for at least
  *      (message_size * queue_length). This buffer will be used by the library for the lifetime of the subscription
  *  @param config The subscription configuration. If NULL then the default configuration will be used
+ *  @param subscription_handle (output) A pointer to a subscription handle that will be set with the handle for the
+ *      subscription
  *  @return Returns an error code that will be RCLUC_RET_OK if create is successful
  */
-rcluc_ret_t rcluc_subscription_create(rcluc_subscription_handle_t * subscription_handle, rcluc_node_handle_t node_handle,
-    const rcluc_message_type_support_t message_type, const char * topic_name, rcluc_subscription_callback_t callback,
-    const size_t queue_length, uint8_t *message_buffer, const rcluc_subscription_config_t * config);
+rcluc_ret_t rcluc_subscription_create(rcluc_node_handle_t node_handle, const rcluc_message_type_support_t message_type,
+    const char * topic_name, rcluc_subscription_callback_t callback, const size_t queue_length, uint8_t *message_buffer,
+    const rcluc_subscription_config_t * config, rcluc_subscription_handle_t * subscription_handle);
 
 /*
  *  @brief Initializes the provided struct with the default config for a subscription.
@@ -133,18 +133,18 @@ rcluc_ret_t rcluc_subscription_destroy(rcluc_subscription_handle_t subscription_
  *  @brief Creates a new ROS publisher
  *  Creates a new ROS publisher. Publishers are used to publish messages on topics in ROS Nodes.
  *
- *  @param publisher_handle (output) A reference to a publisher_handle that will be set to the handle for the new publisher
  *  @param node_handle The handle for the ROS Node that this publisher will be created on.
  *  @param message_type The message type information used by the library to handle the message type.
  *  @param queue_length The number of messages to queue for the outgoing publish
  *  @param message_buffer A pointer to a uint8_t array buffer that contains enough space for at least
  *      (message_size * queue_length). This buffer will be used by the library for the lifetime of the publisher.
  *  @param config The publisher configuration. If NULL then the default configuration will be used
+ *  @param publisher_handle (output) A reference to a publisher_handle that will be set to the handle for the new publisher
  *  @return Returns an error code that will be RCLUC_RET_OK if create is successful
  */
-rcluc_ret_t rcluc_publisher_create(rcluc_publisher_handle_t * publisher_handle, rcluc_node_handle_t node_handle,
+rcluc_ret_t rcluc_publisher_create(rcluc_node_handle_t node_handle,
     const rcluc_message_type_support_t message_type, size_t queue_length, uint8_t * message_buffer,
-    const rcluc_publisher_config_t * config);
+    const rcluc_publisher_config_t * config, rcluc_publisher_handle_t * publisher_handle);
 
 /*
  *  @brief Initializes the provided struct with the default configuration for a publisher.
