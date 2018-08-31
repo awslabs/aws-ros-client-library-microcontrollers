@@ -23,6 +23,7 @@
 
 #include "rcluc/rcluc_default_configs.h"
 #include "rcluc/types.h"
+#include "rcluc/rmwu.h"
 
 /**
  *  @brief Initializes the client library. Must be called before calls to any other rcluc library functions
@@ -87,8 +88,6 @@ void rcluc_node_spin_forever(rcluc_node_handle_t node_handle);
  *  @param node_handle The handle for the node that this subscription will be created on
  *  @param topic_name The name of the topic that will be subscribed to. Expected to be a null terminated string
  *  @param callback The function to invoke when a message is received on this subscription
- *  @param callback_args Data to pass to the callback when it is invoked. It is the responsibility of the client to make
- *      sure the data at this pointer remains valid for the lifetime of the subscription
  *  @param message_size The size of a message to be received on the topic in bytes
  *  @param queue_length The number of messages to queue for the incoming subscription
  *  @param message_buffer A pointer to a uint8_t array buffer that contains enough space for at least
@@ -97,7 +96,7 @@ void rcluc_node_spin_forever(rcluc_node_handle_t node_handle);
  *  @return Returns an error code that will be RCLUC_RET_OK if create is successful
  */
 rcluc_ret_t rcluc_subscription_create(rcluc_subscription_handle_t * subscription_handle, rcluc_node_handle_t node_handle,
-    const char * topic_name, rcluc_subscription_callback_t callback, void * callback_args, const size_t message_size,
+    const char * topic_name, rcluc_subscription_callback_t callback, const size_t message_size,
     const size_t queue_length, uint8_t *message_buffer, const rcluc_subscription_config_t * config);
 
 /*
@@ -110,6 +109,16 @@ rcluc_ret_t rcluc_subscription_create(rcluc_subscription_handle_t * subscription
  *  @param config The config struct to be filed with the default values
  */
 void rcluc_subscription_get_default_config(rcluc_subscription_config_t * config);
+
+/**
+ *  @brief Gets the reference to the user metadata for the subscription.
+ *  Gets the reference to the user metadata for the subscription. The user can specify this metadata by setting it in the
+ *  rcluc_subscription_config_t that it passes into the create function.
+ *
+ *  @param subscription_handle The handle to the subscription
+ *  @return The reference to the user metadata.
+ */
+void * rcluc_subscription_get_user_metadata(const rcluc_subscription_handle_t subscription_handle);
 
 /**
  *  @brief Destroys a subscription to a topic
@@ -146,6 +155,16 @@ rcluc_ret_t rcluc_publisher_create(rcluc_publisher_handle_t * publisher_handle, 
  *  @param config The config struct to be filed with the default values
  */
 void rcluc_publisher_get_default_config(rcluc_publisher_config_t * config);
+
+/**
+ *  @brief Gets the reference to the user metadata for the publisher.
+ *  Gets the reference to the user metadata for the publisher. The user can specify this metadata by setting it in the
+ *  rcluc_publisher_config_t that it passes into the create function.
+ *
+ *  @param publisher_handle The handle to the publisher
+ *  @return The reference to the user metadata.
+ */
+void * rcluc_publisher_get_user_metadata(const rcluc_publisher_handle_t publisher_handle);
 
 /**
  *  @brief Destroys the provided ROS publisher

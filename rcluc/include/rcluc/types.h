@@ -157,11 +157,16 @@ typedef struct {
  *  @var rcluc_subscription_config_t::exception_callback
  *      A callback that is invoked if an exception occurs for this subscription. If NULL then no callback will be invoked
  *      when exceptions occur inside the library.
+ *  @var rcluc_subscription_config_t::user_metadata
+ *      A pointer to user supplied metadata that they want associated with the subscription. You can use the subscription
+ *      handle to access this data from the callbacks. It is up to the user to ensure that the data at this pointer
+ *      remains valid for the lifetime of the subscription.
  */
 typedef struct {
     rcluc_message_deserialization_func_t deserialize_func;
     rcluc_subscription_qos_policy_t qos;
     rcluc_subscription_exception_callback_t exception_callback;
+    void * user_metadata;
 } rcluc_subscription_config_t;
 
 /**
@@ -212,11 +217,16 @@ typedef struct {
  *  @var rcluc_publisher_config_t::exception_callback
  *      A callback that is invoked if an exception occurs for this publisher. If NULL then no callback will be invoked
  *      when exceptions occur inside the library.
+ *  @var rcluc_publisher_config_t::user_metadata
+ *      A pointer to user supplied metadata that they want associated with the publisher. You can use the publisher
+ *      handle to access this data from the callbacks. It is up to the user to ensure that the data at this pointer
+ *      remains valid for the lifetime of the publisher.
  */
 typedef struct {
     rcluc_message_serialization_func_t serialize_func;
     rcluc_publisher_qos_policy_t qos;
     rcluc_publisher_exception_callback_t exception_callback;
+    void * user_metadata;
 } rcluc_publisher_config_t;
 
 #define RCLUC_SUBSCRIPTION_DESERIALIZATION_DISABLED 0
