@@ -95,7 +95,7 @@ void rcluc_node_spin_forever(rcluc_node_handle_t node_handle);
  *      subscription
  *  @return Returns an error code that will be RCLUC_RET_OK if create is successful
  */
-rcluc_ret_t rcluc_subscription_create(rcluc_node_handle_t node_handle, const rcluc_message_type_support_t message_type,
+rcluc_ret_t rcluc_subscription_create(rcluc_node_handle_t node_handle, const rcluc_message_type_support_t * message_type,
     const char * topic_name, rcluc_subscription_callback_t callback, const size_t queue_length, uint8_t *message_buffer,
     const rcluc_subscription_config_t * config, rcluc_subscription_handle_t * subscription_handle);
 
@@ -143,7 +143,7 @@ rcluc_ret_t rcluc_subscription_destroy(rcluc_subscription_handle_t subscription_
  *  @return Returns an error code that will be RCLUC_RET_OK if create is successful
  */
 rcluc_ret_t rcluc_publisher_create(rcluc_node_handle_t node_handle,
-    const rcluc_message_type_support_t message_type, size_t queue_length, uint8_t * message_buffer,
+    const rcluc_message_type_support_t * message_type, size_t queue_length, uint8_t * message_buffer,
     const rcluc_publisher_config_t * config, rcluc_publisher_handle_t * publisher_handle);
 
 /*

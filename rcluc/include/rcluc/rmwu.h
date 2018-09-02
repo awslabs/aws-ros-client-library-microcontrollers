@@ -51,7 +51,7 @@ rcluc_ret_t rmwu_node_create(const char * name, const char * namespace_, rmwu_no
  *  @param node The handle for the node that you want to destroy
  *  @return Returns an error code that will be RCLUC_RET_OK if destroy is successful
  */
-rcluc_ret_t rcluc_node_destroy(rmwu_node_t * node);
+rcluc_ret_t rmwu_node_destroy(rmwu_node_t * node);
 
 /**
  *  @brief Creates a new topic subscription in the underyling rmwu library
@@ -86,7 +86,7 @@ rcluc_ret_t rmwu_subscription_create(rmwu_node_t * node, const rcluc_message_typ
  *  @param subscription The reference for the subscription that is being destroyed
  *  @return Returns an error code that will be RCLUC_RET_OK if destroy is successful
  */
-rcluc_ret_t rcluc_subscription_destroy(rmwu_subscription_t * subscription);
+rcluc_ret_t rmwu_subscription_destroy(rmwu_subscription_t * subscription);
 
 /**
  *  @brief Creates a new ROS publisher
@@ -116,7 +116,7 @@ rcluc_ret_t rmwu_publisher_create(rmwu_node_t * node, const rcluc_message_type_s
  *  @param publisher The reference for the publisher that is being destroyed
  *  @return Returns an error code that will be RCLUC_RET_OK if destroy is successful
  */
-rcluc_ret_t rcluc_publisher_destroy(rmwu_publisher_t * publisher);
+rcluc_ret_t rmwu_publisher_destroy(rmwu_publisher_t * publisher);
 
 /**
  *  @brief Publishes a message on a ROS Topic
@@ -126,6 +126,6 @@ rcluc_ret_t rcluc_publisher_destroy(rmwu_publisher_t * publisher);
  *  @param message The message that is going to be published on the topic
  *  @return Returns an error code that will be RCLUC_RET_OK if publish is successful
  */
-rcluc_ret_t rcluc_publisher_publish(rmwu_publisher_t * publisher, const void * message);
+rcluc_ret_t rmwu_publisher_publish(rmwu_publisher_t * publisher, const void * message);
 
 #endif /* ifndef RCLUC__RMWU_H_ */

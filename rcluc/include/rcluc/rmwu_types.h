@@ -24,8 +24,8 @@
 /* Forward declare these so they can be instantiated in the rcluc implementation without exact details exposed from the
  * rmwu implementation.
  */
-struct rmwu_node_t;
-struct rmwu_subscription_t;
-struct rmwu_publisher_t;
+typedef struct {}rmwu_node_t;
+typedef struct {}rmwu_subscription_t;
+typedef struct {}rmwu_publisher_t;
 
 #endif /* ifndef RCLUC__RMWU_TYPES_H_ */

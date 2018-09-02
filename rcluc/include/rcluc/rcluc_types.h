@@ -166,10 +166,6 @@ typedef struct {
  *  @brief The configuration information for a ROS subscription
  *  Contains all the configuration required for the ROS Topic subscription
  *
- *  @var rcluc_subscription_config_t::deserialize_func
- *      The function used for deserializing messages that come in on this Topic subscription. If
- *      set to NULL then it will not attempt to deserialize the message. Additionally, support for deserialization
- *      must be configured at compile time using the configRCLUC_SUBSCRIPTION_DESERIALIZATION_SUPPORT configuration.
  *  @var rcluc_subscription_config_t::qos
  *      The quality of service policy for the subscription
  *  @var rcluc_subscription_config_t::exception_callback
@@ -181,7 +177,6 @@ typedef struct {
  *      remains valid for the lifetime of the subscription.
  */
 typedef struct {
-    rcluc_message_deserialization_func_t deserialize_func;
     rcluc_subscription_qos_policy_t qos;
     rcluc_subscription_exception_callback_t exception_callback;
     void * user_metadata;
@@ -225,11 +220,6 @@ typedef struct {
  *  @brief The configuration information for a ROS Topic publisher
  *  Contains all the configuration required for the ROS Topic publisher
  *
- *  @var rcluc_publisher_config_t::serialize_func
- *      The function used for deserializing messages that come in on this Topic subscription. If
- *      set to NULL then it will not attempt to deserialize the message. Additionally, support for deserialization
- *      must be configured at compile time using the configRCLUC_SUBSCRIPTION_DESERIALIZATION_SUPPORT configuration
- *      option.
  *  @var rcluc_publisher_config_t::qos
  *      The quality of service policy to use for the publisher
  *  @var rcluc_publisher_config_t::exception_callback
@@ -241,7 +231,6 @@ typedef struct {
  *      remains valid for the lifetime of the publisher.
  */
 typedef struct {
-    rcluc_message_serialization_func_t serialize_func;
     rcluc_publisher_qos_policy_t qos;
     rcluc_publisher_exception_callback_t exception_callback;
     void * user_metadata;

@@ -14,7 +14,7 @@
  */
 
 
-#include "rcluc/types.h"
+#include "rcluc/rcluc_types.h"
 /**
  *  @file
  *  @brief Defines default values for the library to use if not overriden by a configuration from the source application
