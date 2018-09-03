@@ -31,31 +31,36 @@ typedef uint16_t rcluc_ret_t;
 /**
  * @brief Indicates that no error has occured
  */
-#define RCLUC_RET_OK        0
+#define RCLUC_RET_OK            0
 /**
  * @brief Indicates a generic error
  */
-#define RCLUC_RET_ERROR     1
+#define RCLUC_RET_ERROR         1
 /**
  * @brief Indicates an error related to a timeout
  */
-#define RCLUC_RET_TIMEOUT   2
+#define RCLUC_RET_TIMEOUT       2
 /**
  * @brief Indicates an error related to a null pointer
  */
-#define RCLUC_RET_NULL_PTR  3
+#define RCLUC_RET_NULL_PTR      3
 /**
  * @brief Indicates an error with a provided parameter
  */
-#define RCLUC_RET_ERR_PARAM 4
+#define RCLUC_RET_ERR_PARAM     4
 /**
  * @brief Indicates an error due to not being initialized
  */
-#define RCLUC_RET_ERR_INIT 5
+#define RCLUC_RET_ERR_INIT      5
 /**
  * @brief Indicates an error due to an event having already happened
  */
-#define RCLUC_RET_ERR_ALREADY 6
+#define RCLUC_RET_ERR_ALREADY   6
+/**
+ * @brief Indicates an error due to with not having enough space available for an action.
+ *  This could be memory or free elements in a buffer.
+ */
+#define RCLUC_RET_ERR_SPACE     7
 
 
 

@@ -75,7 +75,7 @@ rcluc_ret_t rmwu_node_destroy(rmwu_node_t * node);
  *  TODO: During implementation decide if the callback passed down is the user level callback or if we should
  *      intercept it with a callback function in the rcluc layer to do message conversion etc there instead
  */
-rcluc_ret_t rmwu_subscription_create(rmwu_node_t * node, const rcluc_message_type_support_t message_type,
+rcluc_ret_t rmwu_subscription_create(rmwu_node_t * node, const rcluc_message_type_support_t * message_type,
     const char * topic_name, rcluc_subscription_callback_t callback, const size_t queue_length, uint8_t *message_buffer,
     const rcluc_subscription_config_t * config, rmwu_subscription_t * subscription);
 
@@ -105,7 +105,7 @@ rcluc_ret_t rmwu_subscription_destroy(rmwu_subscription_t * subscription);
  *      message_type at the rcluc library layer. When doing the implementation for the RMWU we should think if it's somethig
  *      every RMWU implementation will need to do in the same way and if so then we should move it up a layer.
  */
-rcluc_ret_t rmwu_publisher_create(rmwu_node_t * node, const rcluc_message_type_support_t message_type,
+rcluc_ret_t rmwu_publisher_create(rmwu_node_t * node, const rcluc_message_type_support_t * message_type,
     size_t queue_length, uint8_t * message_buffer, const rcluc_publisher_config_t * config,
     rmwu_publisher_t * publisher);
 

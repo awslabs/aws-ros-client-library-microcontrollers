@@ -24,8 +24,9 @@
 /* Forward declare these so they can be instantiated in the rcluc implementation without exact details exposed from the
  * rmwu implementation.
  */
-typedef struct {}rmwu_node_t;
-typedef struct {}rmwu_subscription_t;
-typedef struct {}rmwu_publisher_t;
+//TODO: Figure out a way to make these protected for the rmwu implementation while rcluc.c can know the size of the struct 
+typedef struct {} rmwu_node_t;
+typedef struct {} rmwu_subscription_t;
+typedef struct {} rmwu_publisher_t;
 
 #endif /* ifndef RCLUC__RMWU_TYPES_H_ */

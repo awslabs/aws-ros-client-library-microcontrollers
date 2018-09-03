@@ -22,6 +22,18 @@
 #include "rcluc/rmwu_types.h"
 #include "rcluc/rcluc_types.h"
 
+struct rmwu_node_s {
+
+};
+
+struct rmwu_subscription_s {
+
+};
+
+struct rmwu_publisher_s {
+
+};
+
 rcluc_ret_t rmwu_init(const rcluc_client_config_t * config) {
     return RCLUC_RET_ERROR;
 }
@@ -34,7 +46,7 @@ rcluc_ret_t rmwu_node_destroy(rmwu_node_t * node) {
     return RCLUC_RET_ERROR;
 }
 
-rcluc_ret_t rmwu_subscription_create(rmwu_node_t * node, const rcluc_message_type_support_t message_type,
+rcluc_ret_t rmwu_subscription_create(rmwu_node_t * node, const rcluc_message_type_support_t * message_type,
     const char * topic_name, rcluc_subscription_callback_t callback, const size_t queue_length, uint8_t *message_buffer,
     const rcluc_subscription_config_t * config, rmwu_subscription_t * subscription) {
     return RCLUC_RET_ERROR;
@@ -44,7 +56,7 @@ rcluc_ret_t rmwu_subscription_destroy(rmwu_subscription_t * subscription) {
     return RCLUC_RET_ERROR;
 }
 
-rcluc_ret_t rmwu_publisher_create(rmwu_node_t * node, const rcluc_message_type_support_t message_type,
+rcluc_ret_t rmwu_publisher_create(rmwu_node_t * node, const rcluc_message_type_support_t * message_type,
     size_t queue_length, uint8_t * message_buffer, const rcluc_publisher_config_t * config,
     rmwu_publisher_t * publisher) {
     return RCLUC_RET_ERROR;
