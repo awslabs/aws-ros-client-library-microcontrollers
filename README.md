@@ -10,3 +10,11 @@ These should be the design principles that we keep in mind as we develop this li
 - We should reduce the amount or redundant storage of information between RCLUC and RMWU. For example, things like a node's name shouldn't have to be stored in both layers if it can be exposed so that one layer can get it from the other.
 - We should restrict the ability of the RMWU layer to change data from the RCLUC layer. It's okay if it needs to access it or get it passed in, but it should not have the ability to change data owned by that layer unless given explicit permission.
 - Once launched, the API for the RCLUC must be very rigid. Any breaking change in this interface makes it difficult for our users to upgrade to the latest without the need for manual migration work. Similarly, the RMWUC interface should remain as rigid as possible so that any existing RMWU implementation will continue to work with new versions of the library without the need for migration.  
+
+### Build instructions
+Run the following commands to build:
+```
+mkdir build && cd build
+cmake ..
+make
+```
