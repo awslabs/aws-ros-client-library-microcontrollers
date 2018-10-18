@@ -2,3 +2,10 @@ rcluc/html
 html/
 .tag*
 **.gch
+Fast-RTPS/
+micro-RTPS/
+rclc/
+rcluc/build/
+rcluc/install/
+rcluc/log/
+rosserial/

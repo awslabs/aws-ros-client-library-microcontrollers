@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License").
  * You may not use this file except in compliance with the License.
@@ -190,22 +190,80 @@ rcluc_ret_t rcluc_subscription_destroy(rcluc_subscription_handle_t subscription_
 }
 
 rcluc_ret_t rcluc_publisher_create(rcluc_node_handle_t node_handle,
-    const rcluc_message_type_support_t * message_type, size_t queue_length, uint8_t * message_buffer,
-    const rcluc_publisher_config_t * config, rcluc_publisher_handle_t * publisher_handle) {
-    return RCLUC_RET_ERROR;
+        const rcluc_message_type_support_t * message_type, size_t queue_length, uint8_t * message_buffer,
+        const rcluc_publisher_config_t * config, rcluc_publisher_handle_t * publisher_handle) {
+    rcluc_ret_t status = RCLUC_RET_OK;
+    rcluc_publisher_handle_t new_publisher = NULL;
+    if (NULL == node_handle || NULL == message_type || NULL == message_buffer || NULL == config || NULL == publisher_handle) {
+        return RCLUC_RET_NULL_PTR;
+    } else if (queue_length <= 0) {
+        return RCLUC_RET_ERR_PARAM;
+    }
+
+    status = RCLUC_RET_ERR_SPACE;
+    for (size_t i = 0; i < configRCLUC_MAX_PUBLISHERS_PER_NODE; ++i) {
+        if (0 == node_handle->publishers[i].is_used) {
+            node_handle->publishers[i].is_used = 1;
+            new_publisher = &node_handle->publishers[i];
+        }
+    }
+
+    if (NULL != new_publisher) {
+        status = rmwu_publisher_create(&(node_handle->rmwu_node), message_type, queue_length, message_buffer, config,
+                &new_publisher->rmwu_publisher);
+
+        // If the publisher was created successfully then set the return value, otherwise mark it as free again.
+        if (RCLUC_RET_OK == status) {
+            new_publisher->user_metadata = config->user_metadata;
+            *publisher_handle = new_publisher;
+        } else {
+            new_publisher->is_used = 0;
+        }
+    }
+
+    return status;
 }
 
 void rcluc_publisher_get_default_config(rcluc_publisher_config_t * config) {
+    if (NULL == config) {
+        return;
+    }
+    config->qos.reliability = RCLUC_TOPIC_RELIABILITY_BEST_EFFORT;
+    config->exception_callback = NULL;
+    config->user_metadata = NULL;
 }
 
 void * rcluc_publisher_get_user_metadata(const rcluc_publisher_handle_t publisher_handle) {
-    return NULL;
+    if (NULL == publisher_handle) {
+        return NULL;
+    }
+    return publisher_handle->user_metadata;
 }
 
 rcluc_ret_t rcluc_publisher_destroy(rcluc_publisher_handle_t publisher_handle) {
-    return RCLUC_RET_ERROR;
+    rcluc_ret_t status = RCLUC_RET_OK;
+    if (NULL == publisher_handle) {
+        return RCLUC_RET_NULL_PTR;
+    }
+
+    if (0 == publisher_handle->is_used) {
+        status = RCLUC_RET_ERR_ALREADY;
+    }
+
+    if (RCLUC_RET_OK == status) {
+        status = rmwu_publisher_destroy(&publisher_handle->rmwu_publisher);
+    }
+
+    if (RCLUC_RET_OK == status) {
+        publisher_handle->is_used = 0;
+    }
+
+    return status;
 }
 
 rcluc_ret_t rcluc_publisher_publish(rcluc_publisher_handle_t publisher_handle, const void * message) {
-    return RCLUC_RET_ERROR;
+    if (NULL == publisher_handle || NULL == message) {
+        return RCLUC_RET_NULL_PTR;
+    }
+    return rmwu_publisher_publish(&publisher_handle->rmwu_publisher, message);
 }

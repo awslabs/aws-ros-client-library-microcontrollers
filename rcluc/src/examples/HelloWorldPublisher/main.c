@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License").
  * You may not use this file except in compliance with the License.
@@ -20,9 +20,11 @@
 
 #include "rcluc/rcluc.h"
 #include "rcluc_HelloWorld.h"
+#include "rcluc/rmwu_types.h"
 #include <time.h>
 #include <string.h>
 #include <stdio.h>
+#include <micrortps/client/client.h>
 
 #define MAX_MESSAGES_IN_BUFFER      2
 #define TIME_BETWEEN_PUBLISH_SEC    1
@@ -34,16 +36,27 @@ void exception_callback(const rcluc_publisher_handle_t publisher, rcluc_ret_t er
 int main(int args, char** argv)
 {
     rcluc_ret_t err = RCLUC_RET_OK;
-    rcluc_client_config_t clientConfig = {0};
+    rmwu_transport_config_t transport_config = {0};
+    rcluc_client_config_t client_config = {0};
     rcluc_node_handle_t node;
     rcluc_publisher_handle_t publisher;
     uint8_t buffer[MAX_MESSAGES_IN_BUFFER * sizeof(rcluc_HelloWorld_t)];
     rcluc_publisher_config_t  publisher_config = {0};
     time_t wait_till_time = 0;
+    mrUDPTransport transport;
     rcluc_HelloWorld_t hello_world = {0};
     strncpy(hello_world.message, "Hello World!", 255);
 
-    err = rcluc_init(&clientConfig);
+    // Initialize the transport layer specific code. It would be good to get this behind an abstraction layer in the future
+    if(!mr_init_udp_transport(&transport, "127.0.0.1", 2018)) {
+        printf("Error at create transport.\n");
+        return 1;
+    }
+    transport_config.comm = &transport.comm;
+    transport_config.client_key = 0xAAAABBBB;
+    client_config.transport_layer_config = &transport_config;
+
+    err = rcluc_init(&client_config);
     if (RCLUC_RET_OK != err) {
         printf("File: %s, $Line: %d, Error: %d\n", __FILE__, __LINE__, err);
         return err;

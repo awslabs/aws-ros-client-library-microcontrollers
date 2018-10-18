@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License").
  * You may not use this file except in compliance with the License.
@@ -22,23 +22,25 @@
 #include "rcluc/rmwu_types.h"
 #include "rcluc/rcluc_types.h"
 
-struct rmwu_node_s {
-
-};
-
-struct rmwu_subscription_s {
-
-};
-
-struct rmwu_publisher_s {
-
-};
+static mrSession session;
 
 rcluc_ret_t rmwu_init(const rcluc_client_config_t * config) {
-    return RCLUC_RET_ERROR;
+    rcluc_ret_t status = RCLUC_RET_OK;
+    if (NULL == config) {
+        return RCLUC_RET_NULL_PTR;
+    }
+    rmwu_transport_config_t * t_config = (rmwu_transport_config_t*)config->transport_layer_config;
+    mr_init_session(&session, t_config->comm, t_config->client_key);
+    if (!mr_create_session(&session)) {
+        status = RCLUC_RET_ERROR;
+    }
+    return status;
 }
 
 rcluc_ret_t rmwu_node_create(const char * name, const char * namespace_, rmwu_node_t * node) {
+    if (NULL == name || NULL == namespace_ || NULL == node) {
+        return RCLUC_RET_NULL_PTR;
+    }
     return RCLUC_RET_ERROR;
 }
 
