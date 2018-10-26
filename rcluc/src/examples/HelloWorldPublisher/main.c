@@ -53,8 +53,8 @@ int main(int args, char** argv)
         return 1;
     }
     transport_config.comm = &transport.comm;
-    transport_config.client_key = 0xAAAABBBB;
     client_config.transport_layer_config = &transport_config;
+    client_config.client_key = 0xAAAABBBB;
 
     err = rcluc_init(&client_config);
     if (RCLUC_RET_OK != err) {

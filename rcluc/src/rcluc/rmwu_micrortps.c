@@ -30,7 +30,7 @@ rcluc_ret_t rmwu_init(const rcluc_client_config_t * config) {
         return RCLUC_RET_NULL_PTR;
     }
     rmwu_transport_config_t * t_config = (rmwu_transport_config_t*)config->transport_layer_config;
-    mr_init_session(&session, t_config->comm, t_config->client_key);
+    mr_init_session(&session, t_config->comm, config->client_key);
     if (!mr_create_session(&session)) {
         status = RCLUC_RET_ERROR;
     }

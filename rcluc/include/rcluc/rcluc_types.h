@@ -90,6 +90,7 @@ typedef struct rcluc_publisher_s* rcluc_publisher_handle_t;
  */
 typedef struct {
     int16_t dds_domain;
+    uint32_t client_key;
     void * transport_layer_config;
 } rcluc_client_config_t;
 
